@@ -13,10 +13,20 @@ import { fileURLToPath } from "url";
 dotenv.config();
 const app = express();
 
+const allowedOrigins = process.env.CLIENT_URL.split(",");
 // Middleware to handle CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow REST clients or same origin requests
+      if (!allowedOrigins.includes(origin)) {
+        return callback(
+          new Error("CORS policy: This origin is not allowed"),
+          false
+        );
+      }
+      return callback(null, true);
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
