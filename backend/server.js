@@ -14,11 +14,11 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = process.env.CLIENT_URL.split(",");
-// Middleware to handle CORS
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow REST clients or same origin requests
+      if (!origin) return callback(null, true);
       if (!allowedOrigins.includes(origin)) {
         return callback(
           new Error("CORS policy: This origin is not allowed"),
@@ -27,8 +27,8 @@ app.use(
       }
       return callback(null, true);
     },
+    credentials: true, // ✅ This enables cookie/auth headers
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
