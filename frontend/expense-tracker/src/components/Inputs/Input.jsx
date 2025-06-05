@@ -20,7 +20,7 @@ const Input = ({ value, onChange, placeholder, label, type }) => {
           value={value}
           onChange={(e) => onChange(e)}
         />
-
+        {/* 
         {type === "password" && (
           <>
             {showPassword ? (
@@ -29,10 +29,23 @@ const Input = ({ value, onChange, placeholder, label, type }) => {
               <FaRegEyeSlash
                 size={22}
                 className="text-slate-400 cursor-pointer"
-                onClick={() => toggleShowPassword}
+                onClick={() => toggleShowPassword()}
               />
             )}
           </>
+        )} */}
+
+        {type === "password" && (
+          <span
+            onClick={toggleShowPassword}
+            className="cursor-pointer text-slate-400 ml-2"
+          >
+            {showPassword ? (
+              <FaRegEye size={22} />
+            ) : (
+              <FaRegEyeSlash size={22} />
+            )}
+          </span>
         )}
       </div>
     </div>
