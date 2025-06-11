@@ -25,5 +25,7 @@ export const API_PATHS = {
   },
   IMAGE: {
     UPLOAD_IMAGE: "/api/v1/auth/upload-image",
+    UPLOAD_IMAGE:
+      "https://mern-expense-tracker-api.vercel.app/api/v1/auth/upload-image",
   },
 };
