@@ -2,55 +2,61 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import path from "path";
+import bodyParser from "body-parser";
+import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import incomeRoutes from "./routes/incomeRoutes.js";
 import expenseRouter from "./routes/expenseRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
-import bodyParser from "body-parser";
-import { fileURLToPath } from "url";
+
+// Load .env variables
 dotenv.config();
+
 const app = express();
 
-const allowedOrigins = process.env.CLIENT_URL.split(",");
+// ✅ Setup CORS using CLIENT_URL from .env
+const allowedOrigins = process.env.CLIENT_URL?.split(",") || [];
 
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      if (!allowedOrigins.includes(origin)) {
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
         return callback(
-          new Error("CORS policy: This origin is not allowed"),
+          new Error(`CORS policy: This origin is not allowed → ${origin}`),
           false
         );
       }
-      return callback(null, true);
     },
-    credentials: true, // ✅ This enables cookie/auth headers
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
+// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// ✅ Connect DB
 connectDB();
 
+// ✅ Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
 app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/dashboard", dashboardRoutes);
 
-// Serve uploads folder
-// Fix for __dirname
+// ✅ Serve /uploads folder
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Static folder setup
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server is running pn port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
