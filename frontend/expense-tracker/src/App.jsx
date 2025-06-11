@@ -17,7 +17,7 @@ import { Toaster } from "react-hot-toast";
 const App = () => {
   return (
     <UserProvider>
-      <div>
+      <div className="scroll-smooth">
         <Router>
           <Routes>
             <Route path="/" element={<Root />} />
