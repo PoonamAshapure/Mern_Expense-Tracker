@@ -17,9 +17,9 @@ dotenv.config();
 const app = express();
 
 // ✅ Setup CORS using CLIENT_URL from .env
+// ✅ Setup CORS using CLIENT_URL from .env
 const allowedOrigins = process.env.CLIENT_URL?.split(",") || [];
 
-a;
 app.use(
   cors({
     origin: function (origin, callback) {
