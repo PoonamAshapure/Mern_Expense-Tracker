@@ -1,0 +1,6 @@
+# Do not modify line endings in node_modules folders
+frontend/expense-tracker/node_modules/** -text
+backend/node_modules/** -text
+
+# Normalize line endings for all other files
+* text=auto

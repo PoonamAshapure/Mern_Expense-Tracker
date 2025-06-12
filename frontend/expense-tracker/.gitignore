@@ -1,8 +1,0 @@
-# Ignore backend dependencies
-/backend/node_modules/
-/backend/.env
-
-# Ignore frontend dependencies and build
-/frontend/expense-tracker/node_modules/
-/frontend/expense-tracker/dist/
-/frontend/expense-tracker/.env
