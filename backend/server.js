@@ -19,6 +19,7 @@ const app = express();
 // ✅ Setup CORS using CLIENT_URL from .env
 const allowedOrigins = process.env.CLIENT_URL?.split(",") || [];
 
+a;
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -33,9 +34,12 @@ app.use(
       }
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
+
+// ✅ Allow preflight CORS requests
+app.options("*", cors());
 
 // ✅ Middleware
 app.use(express.json());
